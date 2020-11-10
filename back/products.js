@@ -12,7 +12,6 @@ class Product {
            {id: 6, name: "Golden Grahams", quantity: 50, img: "../front/assets/img/products/cereale.jpg", price: 2.50},
            {id: 7, name: "Lay's", quantity: 50, img: "../front/assets/img/products/chips.jpg", price: 1.30},
            {id: 8, name: "Kinder Délice", quantity: 50, img: "../front/assets/img/products/kinder.jpg", price: 3.50}
-
         ];
     }
 
@@ -20,9 +19,25 @@ class Product {
         return this.products;
     }
 
-    saveProduct(){}
+    saveProduct(product){
+        const id = this.products.length + 1;
+        this.products.push({id: id, ...product});
+    }
+
     updateProduct(){}
-    deleteProduct(){}
+
+    deleteProduct(param){
+        let a;
+
+        this.products.forEach(function(prod,index){
+
+            if(prod.id === param){
+                a = index;
+            }
+        })
+
+        this.products.splice(a,1);
+    }
 }
 
 module.exports = new Product();

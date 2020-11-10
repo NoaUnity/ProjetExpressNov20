@@ -71,29 +71,31 @@ $(document).ready(function(){
     par8 = $("#par8");
     
     //#endregion DOM  
+
+    
     
     //#region variables
 
     let total = 0.00;
 
-    const tomate = 0.40;
-    const orange = 0.60;
-    const pomme = 0.70;
+    let tomate;
+    let orange;
+    let pomme;
 
-    const eau = 1.00;
-    const lait = 1.20;
-    const coca = 1.50;
+    let eau;
+    let lait;
+    let coca;
 
-    const cereale = 2.50;
-    const chips = 1.30;
-    const kinder = 3.50;
+    let cereale;
+    let chips;
+    let kinder;
 
     const listNbr = [nbrTomate, nbrOrange, nbrPomme, nbrEau, nbrLait, nbrCoca, nbrCereale, nbrChips, nbrKinder];
     const listPri = [priTomate, priOrange, priPomme, priEau, priLait, priCoca, priCereale, priChips, priKinder];
     const listVal = [tomate, orange, pomme, eau, lait, coca, cereale, chips, kinder];
     const listBtn = [btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8];
     const listPar = [par0, par1, par2, par3, par4, par5, par6, par7, par8];
-    const listNames = ["Tomates", "Oranges", "Pommes", "Volvic", "Lactel", "Coca-Cola", "Golden Grahams", "Lay's", "Kinder"];
+    let listNames = ["", "", "", "", "", "", "", "", ""];
     const priceToBasket = [0, 0, 0, 0, 0, 0, 0, 0, 0];
     let priceInsideBasket = [0, 0, 0, 0, 0, 0, 0, 0, 0];
     let numberInBasket = [0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -101,6 +103,24 @@ $(document).ready(function(){
     let products = [];
 
     //#endregion variables
+
+    //#region Ajax
+
+
+    $.ajax({
+        url: "http://localhost:3000/products",
+        method: "GET",
+        dataType: "json"
+    })
+    .done(function(data){
+        products = data;
+        products.forEach(function(e, index){
+            listNames[index] = e.name;
+            listVal[index] = e.price;
+        })
+    })
+
+    //#endregion Ajax
     
     //#region functions
     
@@ -150,7 +170,6 @@ $(document).ready(function(){
         basketAmount[0].innerHTML = "Montant total : " + prettyPrice(total);
         priceInsideBasket[index] = prettyPrice(priceToBasket[index]);
         numberInBasket[index] += parseInt(listNbr[index].val(),10);
-        console.log(numberInBasket[index]);
         priceToBasket[index] = 0;
         listPri[index][0].innerHTML = prettyPrice(0);
         listNbr[index][0].selectedIndex = 0;
@@ -172,14 +191,7 @@ $(document).ready(function(){
     //#region MAIN
     
     
-    // $.ajax({
-    //     url: "http://localhost:3000/products",
-    //     method: "GET",
-    //     dataType: "json"
-    // })
-    // .done(function(data){
-    //     products = data;
-    // })
+    
 
 
 
@@ -190,7 +202,6 @@ $(document).ready(function(){
 
     basketValid.click(function(){
         //priTomate[0].innerHTML = prettyPrice(5);
-        //console.log(products[3].name);
     })
 
     basketSave.click(function(){
